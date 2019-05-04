@@ -18,10 +18,26 @@ public class test {
 
 
     public static void main(String[] args) throws IOException {
-       fileTest();
+        Dataset dSet = new Dataset(inputAdd+"190315.csv");
+        //Dataset newset = DataUtils.removeOutliar(dSet, dSet.numAttributes-1, 0.1);
+        CBRmodule cbr = new CBRmodule(dSet);
+        Optimization opti = new Optimization.GaBuilder(20, 10)
+                .numCross(0.3)
+                .numElite(0.1)
+                .numMutate(0.2)
+                .numMutate2(0.2)
+                .numSelect(0.2)
+                .build();
+        //Evolution.performEvolution(opti, cbr, 5);
+        Evolution.initialize(opti, cbr, 5);
+        opti.lastGeneration().forEach(x->x.printChromosome());
+        System.out.println();
+
+
+
     }
 
-    public static Chromosomeset addChromosome(Generation newge, Evolution.genericOperation ope){
+    public static Chromosomeset addChromosome(Evolution.genericOperation ope){
         return ope.getChromosome(new Generic());
     }
     public static void addChromosomes(Generation newge, int limit, Evolution.genericOperation ope){

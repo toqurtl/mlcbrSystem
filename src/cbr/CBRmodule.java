@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 import mlcbrUtils.Util1;
 
@@ -23,6 +26,22 @@ public class CBRmodule implements Serializable {
 
     public double[] bestWeight;
 
+    public static void main(String[] args) throws IOException{
+        Dataset dSet = new Dataset("D:\\inseok\\javaProject\\mlcbrSystem\\in\\"+"190315.csv");
+        //Dataset newset = DataUtils.removeOutliar(dSet, dSet.numAttributes-1, 0.1);
+        CBRmodule cbr = new CBRmodule(dSet);
+
+        ArrayList<Data> preData = new ArrayList<>(dSet.stream().map(x->DataUtils.normalizedData(dSet, x)).collect(Collectors.toList()));
+
+        double[] weight = {0.06076, 0.08724, 0.11054, 0.11882, 0.14321, 0.16922, 0.10454, 0.15557, 0.00335, 0.04675};
+
+        ArrayList<Double> errorList = new ArrayList<>(preData.stream().map(x->cbr.errorRate(5, x, weight)).collect(Collectors.toList()));
+        System.out.println(errorList.stream().reduce(0.0,(x,y)->x+y)/errorList.size());
+
+
+
+    }
+
     public CBRmodule(Dataset db) {
         for(String s : db.attributes) {
             attributes.add(s);
@@ -38,7 +57,7 @@ public class CBRmodule implements Serializable {
     public ArrayList<caseCompare> retrieve(int k, Data newd){
         Data prenewd = DataUtils.normalizedData(dataset, newd);
         ArrayList<caseCompare> retrievedData = new ArrayList<>();
-        instances.stream().map(x->new caseCompare(InstancesToOrigin(x), CBRUtils.distance(x, prenewd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
+        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, prenewd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
         return retrievedData;
     }
 
@@ -57,7 +76,7 @@ public class CBRmodule implements Serializable {
     public ArrayList<caseCompare> retrieve(int k, Data newd, double[] weight){
         Data prenewd = DataUtils.normalizedData(dataset, newd);
         ArrayList<caseCompare> retrievedData = new ArrayList<>();
-        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(InstancesToOrigin(x), prenewd, weight))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
+        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, prenewd, weight))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
         return retrievedData;
     }
 

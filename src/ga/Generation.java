@@ -30,12 +30,13 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
         return this.stream().sorted((x,y)->Double.compare(x.errorMean, y.errorMean)).collect(Collectors.toList()).get(0).errorMean;
     }
 
-    private void calculateError(CBRmodule db, int k) {
-        this.forEach(x-> {
-            x.setErrorMean(db, k);
-        });
-        setBadFit();
-        setGoodFit();
+        private void calculateError(CBRmodule db, int k) {
+            this.forEach(x-> {
+                x.setErrorMean(db, k);
+            });
+            setBadFit();
+            setGoodFit();
+
     }
 
     private void calculateFitness(double pressure) {

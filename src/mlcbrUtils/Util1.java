@@ -21,7 +21,7 @@ public class Util1 {
 
     public static void inifiniteCheck(int num){
 
-        if(num>500){
+        if(num>50000){
             System.out.println("nextGeneration Error");
             System.exit(1);
         }
