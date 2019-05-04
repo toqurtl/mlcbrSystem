@@ -1,6 +1,7 @@
 package dataformat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class DataUtils {
@@ -10,6 +11,46 @@ public class DataUtils {
     }
     private static double normalize(double x, double min, double max){
         return (x-min)/(max-min);
+    }
+
+    public static Dataset sampling(Dataset dSet, double point){
+        int num = (int) Math.floor(dSet.size()*point);
+        Dataset newSet = new Dataset(dSet);
+        newSet.clear();
+        Collections.shuffle(dSet);
+        for(int i=0;i<num;i++)
+            newSet.add(dSet.get(i));
+
+        return newSet;
+    }
+
+    public static boolean isUpperExtreme(Dataset dSet, int num, double point, Data d){
+        return d.get(num)>upperExtreme(dSet, num, point);
+    }
+
+    public static boolean isLowerExtreme(Dataset dSet, int num, double point, Data d){
+        return d.get(num)<lowerExtreme(dSet, num, point);
+    }
+
+    public static double upperExtreme(Dataset dSet, int num, double point){
+        return Stats.upperExtreme(dSet.getColumnValuesList(num), point);
+    }
+
+    public static double lowerExtreme(Dataset dSet, int num, double point){
+        return Stats.lowerExtreme(dSet.getColumnValuesList(num), point);
+    }
+
+    public static Dataset removeOutliar(Dataset dSet, int num, double point){
+        Dataset newSet = new Dataset(dSet);
+        ArrayList<Double> outliarIndex = new ArrayList<>();
+        for(Data d : dSet){
+            if(isUpperExtreme(dSet, num, point, d) || isLowerExtreme(dSet, num, point, d))
+                outliarIndex.add(d.ID());
+        }
+        for(double d : outliarIndex){
+            deleteData(newSet, d);
+        }
+        return newSet;
     }
 
     public static Data randomDataGenerator(int length){
@@ -82,13 +123,15 @@ public class DataUtils {
         return tempData;
     }
 
-    public static Dataset deleteData(Dataset dataset, int num) {
-        Dataset tempData = new Dataset(dataset);
-        for(int i=0;i<dataset.size();i++) {
-            if(num!=i)
-                tempData.add(dataset.get(i));
+    public static void deleteData(Dataset dataset, double ID) {
+        int index = 0;
+        for(Data d : dataset){
+            if(Double.compare(d.ID(), ID)==0){
+                dataset.remove(index);
+                break;
+            }
+            index++;
         }
-        return tempData;
     }
 
     public static boolean isFitData(Data d1, Data d2){

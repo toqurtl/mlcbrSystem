@@ -19,18 +19,20 @@ public class Stats {
         return list.stream().mapToDouble(Double::doubleValue).min().getAsDouble();
     }
 
-    public static double getDevi(List<Double> list){
+    public static double getDevi(List<Double> list) {
         double avg = getAvg(list);
-        double sum = list.stream().mapToDouble(Double::doubleValue).map(x-> {return Math.pow(x-avg,2);}).sum();
-        return Math.sqrt(sum/avg);
+        double sum = list.stream().mapToDouble(Double::doubleValue).map(x -> {
+            return Math.pow(x - avg, 2);
+        }).sum();
+        return Math.sqrt(sum / avg);
     }
 
-    public static double upperExtreme(List<Double> list){
-        return quantile(list,0.05);
+    public static double upperExtreme(List<Double> list, double point){
+        return quantile(list,point);
     }
 
-    public static double lowerExtreme(List<Double> list){
-        return quantile(list,0.95);
+    public static double lowerExtreme(List<Double> list, double point){
+        return quantile(list,1-point);
     }
 
 

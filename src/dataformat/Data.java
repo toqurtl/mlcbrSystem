@@ -49,6 +49,9 @@ public class Data extends ArrayList<Double> implements Serializable {
     public int getNumAttributes(){return attributes.size();}
     public int getNumAnalysisValues(){return analysisValues.length;}
 
+    public double ID(){
+        return this.get(0);
+    }
     public double classValue() {
         return this.get(classAttri);
     }

@@ -38,7 +38,7 @@ public class CBRmodule implements Serializable {
     public ArrayList<caseCompare> retrieve(int k, Data newd){
         Data prenewd = DataUtils.normalizedData(dataset, newd);
         ArrayList<caseCompare> retrievedData = new ArrayList<>();
-        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, prenewd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
+        instances.stream().map(x->new caseCompare(InstancesToOrigin(x), CBRUtils.distance(x, prenewd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
         return retrievedData;
     }
 
@@ -55,8 +55,9 @@ public class CBRmodule implements Serializable {
 
 
     public ArrayList<caseCompare> retrieve(int k, Data newd, double[] weight){
+        Data prenewd = DataUtils.normalizedData(dataset, newd);
         ArrayList<caseCompare> retrievedData = new ArrayList<>();
-        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, newd, weight))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
+        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(InstancesToOrigin(x), prenewd, weight))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
         return retrievedData;
     }
 
@@ -101,7 +102,7 @@ public class CBRmodule implements Serializable {
     }
 
     public double trainErrorRate(int k, int num){
-        Dataset newdata = DataUtils.deleteData(instances, num);
+
         return 0.0;
     }
 
@@ -133,5 +134,15 @@ public class CBRmodule implements Serializable {
         return (c1, c2) -> Double.compare(c1.distance, c2.distance);
     }
 
+    public boolean isIDContains(Data d){
+        boolean check = false;
+        for(Data dd: this.dataset){
+            if(Double.compare(dd.get(0), d.get(0))==0){
+                check = true;
+                break;
+            }
+        }
+        return check;
+    }
 
 }

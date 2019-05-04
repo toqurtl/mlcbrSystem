@@ -18,7 +18,23 @@ public class test {
 
 
     public static void main(String[] args) throws IOException {
-        fileTest();
+       fileTest();
+    }
+
+    public static Chromosomeset addChromosome(Generation newge, Evolution.genericOperation ope){
+        return ope.getChromosome(new Generic());
+    }
+    public static void addChromosomes(Generation newge, int limit, Evolution.genericOperation ope){
+        int check = 0;
+        int infiniteCheck = 0;
+        while(check<limit) {
+            Chromosomeset chro = ope.getChromosome(new Generic());
+            if(!newge.hasChro(chro)) {
+                newge.add(chro);
+                check++;
+            }
+            Util1.inifiniteCheck(infiniteCheck++);
+        }
     }
 
     public static void randomTest(){

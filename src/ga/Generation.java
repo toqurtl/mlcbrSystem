@@ -10,8 +10,6 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
     double badfit;
     double goodfit;
 
-
-
     public Generation(){}
     //for deepcopy
     public Generation(Generation gene) {
@@ -33,7 +31,9 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
     }
 
     private void calculateError(CBRmodule db, int k) {
-        this.forEach(x-> x.setErrorMean(db, k));
+        this.forEach(x-> {
+            x.setErrorMean(db, k);
+        });
         setBadFit();
         setGoodFit();
     }

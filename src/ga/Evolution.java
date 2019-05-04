@@ -44,6 +44,7 @@ public class Evolution {
         Generation newge = new Generation();
         for(int i=0;i<opti.setting.get(2);i++)
             newge.add(new Generic().elite(i,gene));
+
         addChromosomes(newge, opti.setting.get(0), (x)->x.selection(gene));
         addChromosomes(newge, opti.setting.get(1), (x)->x.crossover(x.selection(gene), x.selection(gene)));
         addChromosomes(newge, opti.setting.get(3), (x)->x.mutation(gene, opti.setting.get(3)));
@@ -52,6 +53,9 @@ public class Evolution {
         return newge;
     }
 
+    public static void addChromosome(Generation newge, genericOperation ope){
+        newge.add(ope.getChromosome(new Generic()));
+    }
     public static void addChromosomes(Generation newge, int limit, genericOperation ope){
         int check = 0;
         int infiniteCheck = 0;
