@@ -19,26 +19,13 @@ public class Util1 {
         oos.close();
     }
 
-    public static void inifiniteCheck(Integer num){
-        num++;
-        if(num>10000)
+    public static void inifiniteCheck(int num){
+
+        if(num>500){
+            System.out.println("nextGeneration Error");
             System.exit(1);
-    }
-
-
-    public static boolean compareTo(double[] arr1, double[] arr2){
-        int check = 0;
-        int length = arr2.length;
-        for(int i=0;i<length;i++) {
-            if((arr1[i]-arr2[i])<0.0001) {
-                check++;
-            }
         }
-        if(check==length) {
-            return true;
-        }else {
-            return false;
-        }
+
     }
 
     public static void printDoubleArray(double[] arr){
@@ -52,7 +39,6 @@ public class Util1 {
             print(pointPrint(arr[i], k)+", ");
         }
     }
-
 
     public static ArrayList deepCopy(ArrayList list) {
         ArrayList temp = new ArrayList();

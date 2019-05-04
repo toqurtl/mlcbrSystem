@@ -4,7 +4,7 @@ import mlcbrUtils.Util1;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
+
 import java.util.Random;
 
 public class Generic implements Serializable {
@@ -48,17 +48,17 @@ public class Generic implements Serializable {
     }
 
     public Chromosomeset mutation(Generation gene, int num){
-        return mutation(gene.get(num));
+        return mutation(selection(gene));
     }
 
-    public Chromosomeset mutation2(int num) {
-        double[] cc = new double[num];
+    public Chromosomeset mutation2(int length) {
+        double[] cc = new double[length];
         double sum = 0;
-        for(int i=0;i<num;i++) {
+        for(int i=0;i<length;i++) {
             cc[i] = new Random(System.nanoTime()).nextDouble();
             sum+=cc[i];
         }
-        for(int i=0;i<num;i++) {
+        for(int i=0;i<length;i++) {
             cc[i] = cc[i]/sum;
         }
         return new Chromosomeset(cc);
@@ -88,11 +88,6 @@ public class Generic implements Serializable {
         Chromosomeset newchro = new Chromosomeset(makesum1(newWeight));
         return newchro;
     }
-
-
-
-
-
 
     public Chromosomeset mutation(Chromosomeset chro) {
         int size = chro.chromosome.length;

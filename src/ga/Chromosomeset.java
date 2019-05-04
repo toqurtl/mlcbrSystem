@@ -22,17 +22,22 @@ public class Chromosomeset {
     }
 
     public void setErrorMean(CBRmodule cbr, int k){
-        getErrorMean(cbr, k);
+        this.errorMean = getErrorMean(cbr, k);
     }
     public double getErrorMean(CBRmodule cbr, int k){
         return cbr.trainError(k, this.chromosome);
     }
 
+    public void setFitness(double fitness){
+        this.fitness = fitness;
+    }
     public void printChromosome() {
         Util1.printDoubleArray(chromosome, 5);
+        System.out.print(" error : "+errorMean+" fitness : "+fitness);
+        System.out.println();
     }
     public boolean compareTo(Chromosomeset newchro) {
-        return Util1.compareTo(this.chromosome, newchro.chromosome);
+        return GaUtils.compareTo(this.chromosome, newchro.chromosome);
     }
     public void printInfo() {
         printChromosome();

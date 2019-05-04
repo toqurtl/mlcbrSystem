@@ -3,14 +3,10 @@ package cbr;
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import mlcbrUtils.Util1;
-import org.apache.commons.math3.ml.distance.EuclideanDistance;
 
 import dataformat.*;
 import ga.*;
@@ -20,24 +16,12 @@ public class CBRmodule implements Serializable {
     public ArrayList<String> attributes = new ArrayList<>();
     public Dataset dataset;
     public Dataset instances;
-    EuclideanDistance Edistnace = new EuclideanDistance();
     public int numInstances;
     public int numAttributes;
     public int classAttri;
     public int IDAttri;
 
     public double[] bestWeight;
-
-
-    public static void main(String[] args){
-        Dataset dSet = DataUtils.randomDataSetGenerator(20, 10);
-        Data d = DataUtils.randomDataGenerator(10);
-        Data d2 = DataUtils.normalizedData(dSet, dSet.get(0));
-        double[] weight = CBRUtils.getRandomWeight(10-2);
-        CBRmodule cbr = new CBRmodule(dSet);
-        
-
-    }
 
     public CBRmodule(Dataset db) {
         for(String s : db.attributes) {
@@ -52,9 +36,21 @@ public class CBRmodule implements Serializable {
     }
 
     public ArrayList<caseCompare> retrieve(int k, Data newd){
+        Data prenewd = DataUtils.normalizedData(dataset, newd);
         ArrayList<caseCompare> retrievedData = new ArrayList<>();
-        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, newd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
+        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, prenewd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
         return retrievedData;
+    }
+
+    private Data InstancesToOrigin(Data d){
+        Data returnd = new Data(d.attributes);
+        for(Data origin : this.dataset){
+            if(Double.compare(origin.get(0), d.get(0))==0){
+                returnd = new Data(origin);
+                break;
+            }
+        }
+        return returnd;
     }
 
 
@@ -137,12 +133,5 @@ public class CBRmodule implements Serializable {
         return (c1, c2) -> Double.compare(c1.distance, c2.distance);
     }
 
-    public class caseCompare{
-        public Data d;
-        public double distance;
-        public caseCompare(Data d, double distance) {
-            this.d = d;
-            this.distance = distance;
-        }
-    }
+
 }

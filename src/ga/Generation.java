@@ -2,8 +2,6 @@ package ga;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import cbr.CBRmodule;
@@ -27,6 +25,7 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
     public void cal(CBRmodule db, int k, double pressure){
         calculateError(db, k);
         calculateFitness(pressure);
+        sorting();
     }
 
     public double getbestMRE(){
@@ -40,7 +39,7 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
     }
 
     private void calculateFitness(double pressure) {
-        this.forEach(x->x.fitness = calculateFitness(x, pressure));
+        this.forEach(x->x.setFitness(calculateFitness(x, pressure)));
     }
 
     private double calculateFitness(Chromosomeset chro, double pressure){
@@ -67,8 +66,7 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
     }
 
     public void printChromoList(int num) {
-        this.forEach(x->x.printChromosome());
-
+        this.get(0).printChromosome();
     }
 
     public void setBadFit(){
@@ -83,7 +81,8 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
         boolean temp = false;
         for(Chromosomeset chro : this){
             if(newchro.compareTo(chro)){
-                temp = true; break;
+                temp = true;
+                break;
             }
         }
         return temp;

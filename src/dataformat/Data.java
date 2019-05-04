@@ -1,10 +1,9 @@
 package dataformat;
 
 import mlcbrUtils.Util1;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+
 
 public class Data extends ArrayList<Double> implements Serializable {
     public ArrayList<String> attributes = new ArrayList<>();
@@ -15,6 +14,7 @@ public class Data extends ArrayList<Double> implements Serializable {
     public int IDAttri;
 
     public Data(Data d) {
+        this.attributes.clear();
         d.attributes.forEach(x->this.attributes.add(x));
         d.forEach(x->this.add(x));
         numAttributes = attributes.size();
@@ -26,6 +26,7 @@ public class Data extends ArrayList<Double> implements Serializable {
 
     //emptyData
     public Data(ArrayList<String> attributes) {
+        this.attributes.clear();
         attributes.forEach(x->this.attributes.add(x));
         numAttributes = attributes.size();
         classAttri = attributes.size()-1;
@@ -34,6 +35,7 @@ public class Data extends ArrayList<Double> implements Serializable {
     }
 
     public Data(ArrayList<String> attributes, double[] alldata) {
+        this.attributes.clear();
         attributes.forEach(x->this.attributes.add(x));
         for(double d : alldata)
             this.add(d);
@@ -83,6 +85,7 @@ public class Data extends ArrayList<Double> implements Serializable {
 
     public void printData() {
         Util1.printList(this);
+        System.out.println();
     }
 
     public Data clone() {

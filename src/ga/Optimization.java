@@ -1,37 +1,37 @@
 package ga;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Random;
-import cbr.CBRmodule;
 import mlcbrUtils.Util1;
 
 public class Optimization extends ArrayList<Generation> implements Serializable {
     public ArrayList<Double> bestRMEs = new ArrayList<Double>();
-
-    int iniSize = 100;
-    int numGeneration = 10;
+    int iniSize;
+    int numGeneration;
     LinkedHashMap<Integer, Integer> setting = new LinkedHashMap<>();
 
-    public Optimization(GaBuilder builder) {
-        builder.build(this);
+    private Optimization(GaBuilder builder) {
+        evolSetting(builder.iniSize, builder.numGeneration);
+        gaSetting(builder.numSelect, builder.numCross, builder.numElite, builder.numMutate, builder.numMutate2);
+    }
+
+    public Generation lastGeneration(){
+        return this.get(this.size()-1);
     }
 
     public void saveGenerations(String filename) throws FileNotFoundException, IOException {
         Util1.saveFile(filename, this);
     }
 
-    private void evolSetting(int numGeneration, int iniSize){
+    protected void evolSetting(int iniSize, int numGeneration){
         this.iniSize = iniSize;
         this.numGeneration = numGeneration;
     }
 
-    private void gaSetting(double numSelect, double numCross, double numElite, double numMutate, double numMutate2) {
+    protected void gaSetting(double numSelect, double numCross, double numElite, double numMutate, double numMutate2) {
         LinkedHashMap<Integer, Double> portionSetting = new LinkedHashMap<>();
         portionSetting.put(0, numSelect);
         portionSetting.put(1, numCross);
@@ -47,9 +47,6 @@ public class Optimization extends ArrayList<Generation> implements Serializable 
         setting.put(4, iniSize-sum);
     }
 
-
-
-
     public void printBestResult() {
         this.get(this.size()-1).printChromoList(1);
     }
@@ -57,17 +54,18 @@ public class Optimization extends ArrayList<Generation> implements Serializable 
         this.get(num).printChromoList(this.size());
     }
 
-    public class GaBuilder{
+    public static class GaBuilder{
         private double numSelect = 0.1;
         private double numCross = 0.3;
         private double numElite = 0.1;
         private double numMutate = 0.3;
         private double numMutate2 = 0.2;
-        private int iniSize = 50;
-        private int numGeneration = 50;
+        private int iniSize;
+        private int numGeneration;
 
         public GaBuilder(int iniSize, int numGeneration){
-           evolSetting(numGeneration, iniSize);
+            this.iniSize = iniSize;
+            this.numGeneration = numGeneration;
         }
 
         public GaBuilder numSelect(double val){
@@ -90,8 +88,8 @@ public class Optimization extends ArrayList<Generation> implements Serializable 
             this.numSelect = val;
             return this;
         }
-        public void build(Optimization opti){
-            opti.gaSetting(numSelect, numCross, numElite, numMutate, numMutate2);
+        public Optimization build(){
+            return new Optimization(this);
         };
     }
 

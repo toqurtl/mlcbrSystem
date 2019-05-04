@@ -9,6 +9,13 @@ import ga.Chromosomeset;
 
 public class CBRUtils {
 
+    public static double distance(Data d1, Data d2){
+        double dis = 0.0;
+        for(int i=0;i<d1.weightLength;i++)
+            dis+=Math.pow(d1.analysisValues[i]-d2.analysisValues[i],2);
+        return Math.sqrt(dis/(d1.getNumAnalysisValues()));
+    }
+
     public static double distance(Data d1, Data d2, double[] weight) {
         double dis = 0.0;
         for(int i=0;i<d1.weightLength;i++)

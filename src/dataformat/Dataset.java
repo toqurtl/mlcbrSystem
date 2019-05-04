@@ -3,23 +3,20 @@ package dataformat;
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.function.Function;
+
 import java.util.stream.Collectors;
 
 import mlcbrUtils.Util1;
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
-import org.apache.commons.math3.stat.descriptive.moment.Mean;
 
 public class Dataset extends ArrayList<Data> implements Serializable {
     public ArrayList<String> attributes = new ArrayList<>();

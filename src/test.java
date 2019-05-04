@@ -18,18 +18,14 @@ public class test {
 
 
     public static void main(String[] args) throws IOException {
-        Dataset dSet = new Dataset(inputAdd+"190315.csv");
-        CBRmodule cbr = new CBRmodule(dSet);
-        cbr.instances.printDataset();
-
+        fileTest();
     }
 
     public static void randomTest(){
         Dataset dSet = DataUtils.randomDataSetGenerator(size, length);
-        Data d = DataUtils.randomDataGenerator(length);
-        double[] weight = CBRUtils.getRandomWeight(length-2);
+
         CBRmodule cbr = new CBRmodule(dSet);
-        Optimization opti = new Optimization.GaBuilder(100, 10000)
+        Optimization opti = new Optimization.GaBuilder(100, 100)
                 .numCross(0.3)
                 .numElite(0.1)
                 .numMutate(0.2)
@@ -42,6 +38,20 @@ public class test {
         opti.lastGeneration().forEach(x->x.printChromosome());
     }
 
+    public static void fileTest() throws IOException{
+        Dataset dSet = new Dataset(inputAdd+"190315.csv");
+        CBRmodule cbr = new CBRmodule(dSet);
+        Optimization opti = new Optimization.GaBuilder(50, 100)
+                .numCross(0.3)
+                .numElite(0.1)
+                .numMutate(0.2)
+                .numMutate2(0.2)
+                .numSelect(0.2)
+                .build();
+        Evolution.performEvolution(opti, cbr, 5);
+        System.out.println(opti.lastGeneration().size());
+        opti.lastGeneration().forEach(x->x.printChromosome());
+    }
 
 
 }
