@@ -1,5 +1,6 @@
 
 
+import cbr.CBRModel;
 import cbr.CBRUtils;
 import cbr.CBRmodule;
 import dataformat.Data;
@@ -9,6 +10,7 @@ import ga.*;
 import mlcbrUtils.Util1;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class test {
 
@@ -19,22 +21,23 @@ public class test {
 
     public static void main(String[] args) throws IOException {
         Dataset dSet = new Dataset(inputAdd+"190315.csv");
-        //Dataset newset = DataUtils.removeOutliar(dSet, dSet.numAttributes-1, 0.1);
-        CBRmodule cbr = new CBRmodule(dSet);
-        Optimization opti = new Optimization.GaBuilder(20, 10)
+        ArrayList<Dataset> sets = DataUtils.sampling(dSet, 0.8);
+        Dataset trainset = sets.get(0);
+        Dataset testset = sets.get(1);
+
+        CBRmodule cbr = new CBRmodule(trainset);
+
+        Optimization opti = new Optimization.GaBuilder(50, 10)
                 .numCross(0.3)
                 .numElite(0.1)
                 .numMutate(0.2)
                 .numMutate2(0.2)
                 .numSelect(0.2)
                 .build();
-        //Evolution.performEvolution(opti, cbr, 5);
-        Evolution.initialize(opti, cbr, 5);
-        opti.lastGeneration().forEach(x->x.printChromosome());
-        System.out.println();
 
-
-
+        Evolution.performEvolution(opti, cbr, 5);
+        CBRModel model = new CBRModel(new CBRModel.Builder(cbr, 5, 0.0557).modelID("dd").modelName("ddd").modelDescription("dfsdfdf"));
+        model.saveFile("ddd");
     }
 
     public static Chromosomeset addChromosome(Evolution.genericOperation ope){

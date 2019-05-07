@@ -20,12 +20,10 @@ public class Util1 {
     }
 
     public static void inifiniteCheck(int num){
-
         if(num>50000){
             System.out.println("nextGeneration Error");
             System.exit(1);
         }
-
     }
 
     public static void printDoubleArray(double[] arr){

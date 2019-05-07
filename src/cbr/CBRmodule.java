@@ -3,9 +3,8 @@ package cbr;
 import java.io.Serializable;
 import java.io.IOException;
 import java.io.FileNotFoundException;
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,7 @@ public class CBRmodule implements Serializable {
     public ArrayList<String> attributes = new ArrayList<>();
     public Dataset dataset;
     public Dataset instances;
-    public int numInstances;
+
     public int numAttributes;
     public int classAttri;
     public int IDAttri;
@@ -28,17 +27,6 @@ public class CBRmodule implements Serializable {
 
     public static void main(String[] args) throws IOException{
         Dataset dSet = new Dataset("D:\\inseok\\javaProject\\mlcbrSystem\\in\\"+"190315.csv");
-        //Dataset newset = DataUtils.removeOutliar(dSet, dSet.numAttributes-1, 0.1);
-        CBRmodule cbr = new CBRmodule(dSet);
-
-        ArrayList<Data> preData = new ArrayList<>(dSet.stream().map(x->DataUtils.normalizedData(dSet, x)).collect(Collectors.toList()));
-
-        double[] weight = {0.06076, 0.08724, 0.11054, 0.11882, 0.14321, 0.16922, 0.10454, 0.15557, 0.00335, 0.04675};
-
-        ArrayList<Double> errorList = new ArrayList<>(preData.stream().map(x->cbr.errorRate(5, x, weight)).collect(Collectors.toList()));
-        System.out.println(errorList.stream().reduce(0.0,(x,y)->x+y)/errorList.size());
-
-
 
     }
 
@@ -47,31 +35,26 @@ public class CBRmodule implements Serializable {
             attributes.add(s);
         }
         this.numAttributes = db.numAttributes;
-        this.numInstances = db.size();
         this.classAttri = db.classAttri;
         this.IDAttri = db.IDAttri;
         dataset = new Dataset(db);
         instances = DataUtils.normalizedData(dataset, dataset);
     }
 
-    public ArrayList<caseCompare> retrieve(int k, Data newd){
-        Data prenewd = DataUtils.normalizedData(dataset, newd);
-        ArrayList<caseCompare> retrievedData = new ArrayList<>();
-        instances.stream().map(x->new caseCompare(x, CBRUtils.distance(x, prenewd))).sorted(getComparator()).limit(k).forEach(x->retrievedData.add(x));
-        return retrievedData;
-    }
 
-    private Data InstancesToOrigin(Data d){
-        Data returnd = new Data(d.attributes);
-        for(Data origin : this.dataset){
-            if(Double.compare(origin.get(0), d.get(0))==0){
-                returnd = new Data(origin);
-                break;
-            }
-        }
-        return returnd;
-    }
 
+
+
+    public ArrayList<caseCompare> retrieveInternal(int k, int num, double []weight){
+        ArrayList<caseCompare> retrivedData = new ArrayList<>();
+        instances.stream()
+                .filter(x->Double.compare(x.get(0),num*1.0)!=0)
+                .map(x->new caseCompare(x, CBRUtils.distance(x, instances.get(num), weight)))
+                .sorted(getComparator())
+                .limit(k)
+                .forEach(x->retrivedData.add(x));
+        return retrivedData;
+    }
 
     public ArrayList<caseCompare> retrieve(int k, Data newd, double[] weight){
         Data prenewd = DataUtils.normalizedData(dataset, newd);
@@ -80,37 +63,21 @@ public class CBRmodule implements Serializable {
         return retrievedData;
     }
 
-    public double reuse(int k, Data newd) {
-        ArrayList<caseCompare> retrievedData = retrieve(k, newd);
-        double predict = 0;
-        for(caseCompare c : retrievedData)
-            predict += c.d.classValue();
-        return predict/k;
-    }
-
     public double reuse(int k, Data newd, double[] weight) {
         ArrayList<caseCompare> retrievedData = retrieve(k, newd,weight);
-        double predict = 0;
-        for(caseCompare c : retrievedData)
-            predict += c.d.classValue();
-        return predict/k;
+        return retrievedData.stream().map(x->x.d.classValue()).reduce(0.0, (x,y)->x+y)/k;
     }
 
-    public double trainError(int k, int num, double[] weight) {
-        ArrayList<caseCompare> retrievedData = retrieve(k+1, instances.get(num), weight);
-        retrievedData.remove(0);
-        double predict = 0;
-        for(caseCompare c : retrievedData)
-            predict += c.d.classValue();
-        return predict/k;
+    public double reuseInteranal(int k, int num, double[] weight){
+        ArrayList<caseCompare> retrievedData = retrieveInternal(k, num ,weight);
+        return retrievedData.stream().map(x->x.d.classValue()).reduce(0.0, (x,y)->x+y)/k;
     }
 
     public double trainError(int k, double[] weight) {
-        double sum =0;
-        for(int i=0;i<numInstances;i++) {
-            sum+=trainError(k, i, weight);
-        }
-        return sum/numInstances;
+        double sum = 0;
+        for(int i=0;i<instances.size();i++)
+            sum+=errorRate(k, i, weight);
+        return sum/instances.size();
     }
 
     public double testError(int k, double[] weight, Dataset testSet) {
@@ -120,13 +87,13 @@ public class CBRmodule implements Serializable {
         return sum/testSet.size();
     }
 
-    public double trainErrorRate(int k, int num){
-
-        return 0.0;
+    public double errorRate(int k, int num, double[] weight){
+        return Math.abs(reuseInteranal(k, num, weight)-classValue(num))/classValue(num);
     }
 
-    public double errorRate(int k, Data newd) {
-        return Math.abs(reuse(k,newd)-newd.classValue())/newd.classValue();
+
+    public double errorRate(int k, int num, Chromosomeset chro) {
+        return errorRate(k,num,chro.chromosome);
     }
 
     public double errorRate(int k, Data newd, double[] weight) {
@@ -141,13 +108,13 @@ public class CBRmodule implements Serializable {
         Util1.saveFile(filePath, this);
     }
 
+    public void setBestWeight(double[] bestWeight){
+        this.bestWeight = bestWeight.clone();
+    }
     public void setBestWeight(Optimization opti, int k) {
         Evolution.performEvolution(opti, this, k);
     }
 
-    public double getError(Data d, double predict){
-        return Math.abs((predict-d.classValue())/d.classValue());
-    }
 
     public Comparator<caseCompare> getComparator(){
         return (c1, c2) -> Double.compare(c1.distance, c2.distance);
@@ -163,5 +130,15 @@ public class CBRmodule implements Serializable {
         }
         return check;
     }
+
+    private double getError(Data d, double predict){
+        return Math.abs((predict-d.classValue())/d.classValue());
+    }
+
+
+    private double classValue(int num){
+        return instances.get(num).classValue();
+    }
+
 
 }

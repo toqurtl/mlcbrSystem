@@ -46,15 +46,7 @@ public class Data extends ArrayList<Double> implements Serializable {
         analysisValues = valueArray();
     }
 
-    public int getNumAttributes(){return attributes.size();}
-    public int getNumAnalysisValues(){return analysisValues.length;}
 
-    public double ID(){
-        return this.get(0);
-    }
-    public double classValue() {
-        return this.get(classAttri);
-    }
     public double[] valueArray() {
         double[] tempArray = new double[numAttributes-2];
         int check = 0;
@@ -86,18 +78,26 @@ public class Data extends ArrayList<Double> implements Serializable {
         return d;
     }
 
+
     public void printData() {
         Util1.printList(this);
         System.out.println();
     }
-
     public Data clone() {
         return new Data(this);
     }
-
     public boolean isFittedData(Data d){
         return DataUtils.isFitData(this, d);
     }
+    public int getNumAttributes(){return attributes.size();}
+    public int getNumAnalysisValues(){return analysisValues.length;}
+    public double ID(){
+        return this.get(0);
+    }
+    public double classValue() {
+        return this.get(classAttri);
+    }
+
 
 
 

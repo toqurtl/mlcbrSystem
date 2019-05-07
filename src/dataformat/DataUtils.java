@@ -13,15 +13,26 @@ public class DataUtils {
         return (x-min)/(max-min);
     }
 
-    public static Dataset sampling(Dataset dSet, double point){
-        int num = (int) Math.floor(dSet.size()*point);
-        Dataset newSet = new Dataset(dSet);
-        newSet.clear();
-        Collections.shuffle(dSet);
-        for(int i=0;i<num;i++)
-            newSet.add(dSet.get(i));
-
-        return newSet;
+    public static ArrayList<Dataset> sampling(Dataset dSet, double point){
+        try {
+            int num = (int) Math.floor(dSet.size() * point);
+            Dataset trainSet = new Dataset(dSet);
+            trainSet.clear();
+            Dataset testSet = new Dataset(trainSet);
+            Collections.shuffle(dSet);
+            for(int i = 0; i < num; i++)
+                trainSet.add(dSet.get(i));
+            for(int i = num; i< dSet.size() ; i++)
+                testSet.add(dSet.get(i));
+            ArrayList<Dataset> temp = new ArrayList<>();
+            temp.add(trainSet);
+            temp.add(testSet);
+            return temp;
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+            System.out.println("point have to be double value from 0 to 1");
+            return null;
+        }
     }
 
     public static boolean isUpperExtreme(Dataset dSet, int num, double point, Data d){
