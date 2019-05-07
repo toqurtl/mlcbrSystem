@@ -1,9 +1,7 @@
-
+package example;
 
 import cbr.CBRModel;
-import cbr.CBRUtils;
 import cbr.CBRmodule;
-import dataformat.Data;
 import dataformat.DataUtils;
 import dataformat.Dataset;
 import ga.*;
@@ -12,13 +10,10 @@ import mlcbrUtils.Util1;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class test {
-
+public class basicProcess {
     public static String inputAdd = "D:\\inseok\\javaProject\\mlcbrSystem\\in\\";
     public static int size = 20;
     public static int length = 10;
-
-
     public static void main(String[] args) throws IOException {
         Dataset dSet = new Dataset(inputAdd+"190315.csv");
         ArrayList<Dataset> sets = DataUtils.sampling(dSet, 0.8);
@@ -87,6 +82,5 @@ public class test {
         System.out.println(opti.lastGeneration().size());
         opti.lastGeneration().forEach(x->x.printChromosome());
     }
-
 
 }
