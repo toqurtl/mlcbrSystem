@@ -31,9 +31,7 @@ public class Generation extends ArrayList<Chromosomeset> implements Serializable
     }
 
     private void calculateError(CBRmodule db, int k) {
-        this.forEach(x-> {
-            x.setErrorMean(db, k);
-        });
+        this.forEach(x-> x.setErrorMean(db, k));
         setBadFit();
         setGoodFit();
     }

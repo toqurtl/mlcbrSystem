@@ -6,6 +6,7 @@ import dataformat.Data;
 import dataformat.DataUtils;
 import dataformat.Dataset;
 import ga.Chromosomeset;
+import ga.Optimization;
 
 public class CBRUtils {
 
@@ -42,6 +43,10 @@ public class CBRUtils {
             weight[i] = new Random().nextDouble();
         }
         return makesum1(weight);
+    }
+
+    public void saveCBRModel(String filename, CBRmodule cbr, int k, double trainError){
+
     }
 
     public static double[] makesum1(double[] weight) {

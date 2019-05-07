@@ -59,18 +59,17 @@ public class Dataset extends ArrayList<Data> implements Serializable {
     private double getStats(int num, Statistics stat){
         return stat.getStats(this.getColumnValuesList(num));
     }
-
     public double getAvg(int num){
-        return getStats(num, Statistics.Avg);
+        return Stats.getAvg(getColumnValuesList(num));
     }
     public double getMax(int num){
-        return getStats(num, Statistics.Max);
+        return Stats.getMax(getColumnValuesList(num));
     }
     public double getMin(int num){
-        return getStats(num, Statistics.Min);
+        return Stats.getMin(getColumnValuesList(num));
     }
     public double getDeviation(int num){
-        return getStats(num, Statistics.Deviation);
+        return Stats.getDevi(getColumnValuesList(num));
     }
 
     public void printDataset() {

@@ -1,27 +1,41 @@
+package example;
 
-
-import cbr.CBRUtils;
+import cbr.CBRModel;
 import cbr.CBRmodule;
-import dataformat.Data;
 import dataformat.DataUtils;
 import dataformat.Dataset;
 import ga.*;
 import mlcbrUtils.Util1;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class test {
-
+public class basicProcess {
     public static String inputAdd = "D:\\inseok\\javaProject\\mlcbrSystem\\in\\";
     public static int size = 20;
     public static int length = 10;
-
-
     public static void main(String[] args) throws IOException {
-       fileTest();
+        Dataset dSet = new Dataset(inputAdd+"190315.csv");
+        ArrayList<Dataset> sets = DataUtils.sampling(dSet, 0.8);
+        Dataset trainset = sets.get(0);
+        Dataset testset = sets.get(1);
+
+        CBRmodule cbr = new CBRmodule(trainset);
+
+        Optimization opti = new Optimization.GaBuilder(50, 10)
+                .numCross(0.3)
+                .numElite(0.1)
+                .numMutate(0.2)
+                .numMutate2(0.2)
+                .numSelect(0.2)
+                .build();
+
+        Evolution.performEvolution(opti, cbr, 5);
+        CBRModel model = new CBRModel(new CBRModel.Builder(cbr, 5, 0.0557).modelID("dd").modelName("ddd").modelDescription("dfsdfdf"));
+        model.saveFile("ddd");
     }
 
-    public static Chromosomeset addChromosome(Generation newge, Evolution.genericOperation ope){
+    public static Chromosomeset addChromosome(Evolution.genericOperation ope){
         return ope.getChromosome(new Generic());
     }
     public static void addChromosomes(Generation newge, int limit, Evolution.genericOperation ope){
@@ -68,6 +82,5 @@ public class test {
         System.out.println(opti.lastGeneration().size());
         opti.lastGeneration().forEach(x->x.printChromosome());
     }
-
 
 }

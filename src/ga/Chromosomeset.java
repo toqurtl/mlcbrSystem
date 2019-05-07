@@ -6,8 +6,8 @@ import mlcbrUtils.Util1;
 public class Chromosomeset {
 
     public double[] chromosome;
-    public double errorMean=0;
-    public double fitness=0;
+    public double errorMean;
+    public double fitness;
     public boolean isCalculated = false;
 
     public Chromosomeset(double[] chromosome) {
