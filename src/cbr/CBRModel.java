@@ -1,6 +1,5 @@
 package cbr;
 
-import cbr.CBRmodule;
 import dataformat.Data;
 import mlcbrUtils.Util1;
 

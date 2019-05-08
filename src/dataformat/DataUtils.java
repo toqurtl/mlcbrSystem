@@ -1,5 +1,8 @@
 package dataformat;
 
+import mlcbrUtils.Util1;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -178,6 +181,9 @@ public class DataUtils {
         return check;
     }
 
+    public static void saveDataset(String filename, Dataset d1) throws IOException {
+        Util1.saveFile(filename+"data", d1);
+    }
 
 
 }
