@@ -3,8 +3,10 @@ package dataformat;
 import mlcbrUtils.Util1;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class DatasetFile {
+public class DatasetFile implements Serializable {
 
     private String dataID;
     private String dataName;
@@ -16,6 +18,30 @@ public class DatasetFile {
         this.dataName = builder.dataName;
         this.dataDescription = builder.dataDescription;
         this.dataset = builder.dataset;
+    }
+
+    public void setID(int id){
+        this.dataID = String.valueOf(id);
+    }
+    public ArrayList<String> getInfo(){
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add(dataID);
+        temp.add(dataName);
+        temp.add(dataDescription);
+        return temp;
+    }
+
+    public String getID(){
+        return dataID;
+    }
+    public String getName(){
+        return dataName;
+    }
+    public String getDescription(){
+        return dataDescription;
+    }
+    public Dataset getDataset(){
+        return dataset;
     }
 
     public void saveFile(String filename) throws IOException {
@@ -38,12 +64,12 @@ public class DatasetFile {
         }
 
         public Builder dataName(String dataName){
-            this.dataID = dataName;
+            this.dataName = dataName;
             return this;
         }
 
         public Builder dataDescriptoin(String dataDescription){
-            this.dataID = dataDescription;
+            this.dataDescription = dataDescription;
             return this;
         }
     }

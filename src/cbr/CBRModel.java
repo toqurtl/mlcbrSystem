@@ -28,6 +28,10 @@ public class CBRModel implements Serializable {
         this.bestWeight = builder.bestWeight;
     }
 
+    public void setID(int ID){
+        this.modelName = String.valueOf(ID);
+    }
+
     public void saveFile(String filename) throws IOException {
         Util1.saveFile(filename+".cbr", this);
     }
@@ -50,6 +54,14 @@ public class CBRModel implements Serializable {
             return null;
         }
 
+    }
+
+    public ArrayList<String> getInfo(){
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add(modelID);
+        temp.add(modelName);
+        temp.add(modelDescription);
+        return temp;
     }
 
     public boolean isFittedFormat(Data d){

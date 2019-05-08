@@ -22,7 +22,7 @@ public class basicProcess {
 
         CBRmodule cbr = new CBRmodule(trainset);
 
-        Optimization opti = new Optimization.GaBuilder(50, 10)
+        Optimization opti = new Optimization.GaBuilder(50, 5)
                 .numCross(0.3)
                 .numElite(0.1)
                 .numMutate(0.2)
