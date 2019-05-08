@@ -19,7 +19,9 @@ public class CbrDB implements Serializable {
     public void saveStatus() throws IOException {
         Util1.saveFile(dbName, this);
     }
-
+    public void clear(){
+        db.clear();
+    }
     public void addNewModel(CBRModel cbr) throws IOException{
         if(db.size()==0){
             cbr.setID(0);

@@ -15,6 +15,9 @@ public class DataDB implements Serializable {
     LinkedHashMap<Integer, DatasetFile> db = new LinkedHashMap<>();
     public DataDB(){
     }
+    public void clear(){
+        db.clear();
+    }
 
     public void saveStatus() throws IOException {
         Util1.saveFile(dbName, this);
