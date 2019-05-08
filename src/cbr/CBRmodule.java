@@ -24,11 +24,6 @@ public class CBRmodule implements Serializable {
 
     public double[] bestWeight;
 
-    public static void main(String[] args) throws IOException{
-        Dataset dSet = new Dataset("D:\\inseok\\javaProject\\mlcbrSystem\\in\\"+"190315.csv");
-
-    }
-
     public CBRmodule(Dataset db) {
         for(String s : db.attributes) {
             attributes.add(s);

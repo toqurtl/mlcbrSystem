@@ -20,7 +20,7 @@ public class CbrDB implements Serializable {
         Util1.saveFile(dbName, this);
     }
 
-    public void addNewModel(CBRModel cbr){
+    public void addNewModel(CBRModel cbr) throws IOException{
         if(db.size()==0){
             cbr.setID(0);
             db.put(0,cbr);
@@ -28,9 +28,10 @@ public class CbrDB implements Serializable {
             cbr.setID(db.size());
             db.put(db.size(), cbr);
         }
+        saveStatus();
     }
 
-    public void deleteModel(int id){
+    public void deleteModel(int id) throws IOException{
         if(isContainID(id)){
             int size = db.size();
             db.remove(id);
@@ -39,8 +40,8 @@ public class CbrDB implements Serializable {
             db.remove(db.size()+1);
         }else{
             System.out.println("there is no dataset file with id " +id);
-
         }
+        saveStatus();
     }
 
     public int getSize(){
@@ -57,7 +58,7 @@ public class CbrDB implements Serializable {
         }
     }
 
-    public CBRModel getDatasetFile(int id){
+    public CBRModel getModelFile(int id){
         if(isContainID(id)){
             return db.get(id);
         }else{

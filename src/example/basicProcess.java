@@ -4,17 +4,22 @@ import cbr.CBRModel;
 import cbr.CBRmodule;
 import dataformat.DataUtils;
 import dataformat.Dataset;
+import db.CbrDB;
+import db.DBUtil;
 import ga.*;
 import mlcbrUtils.Util1;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class basicProcess {
     public static String inputAdd = "D:\\inseok\\javaProject\\mlcbrSystem\\in\\";
     public static int size = 20;
     public static int length = 10;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         Dataset dSet = new Dataset(inputAdd+"190315.csv");
         ArrayList<Dataset> sets = DataUtils.sampling(dSet, 0.8);
         Dataset trainset = sets.get(0);
@@ -31,8 +36,6 @@ public class basicProcess {
                 .build();
 
         Evolution.performEvolution(opti, cbr, 5);
-        CBRModel model = new CBRModel(new CBRModel.Builder(cbr, 5, 0.0557).modelID("dd").modelName("ddd").modelDescription("dfsdfdf"));
-        model.saveFile("ddd");
     }
 
     public static Chromosomeset addChromosome(Evolution.genericOperation ope){

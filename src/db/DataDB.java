@@ -20,7 +20,7 @@ public class DataDB implements Serializable {
         Util1.saveFile(dbName, this);
     }
 
-    public void addNewDataset(DatasetFile dataset){
+    public void addNewDataset(DatasetFile dataset) throws IOException{
         if(db.size()==0){
             dataset.setID(0);
             db.put(0,dataset);
@@ -28,9 +28,10 @@ public class DataDB implements Serializable {
             dataset.setID(db.size());
             db.put(db.size(), dataset);
         }
+        saveStatus();
     }
 
-    public void deleteDataset(int id){
+    public void deleteDataset(int id) throws IOException{
         if(isContainID(id)){
             int size = db.size();
             db.remove(id);
@@ -39,8 +40,8 @@ public class DataDB implements Serializable {
             db.remove(db.size()+1);
         }else{
             System.out.println("there is no dataset file with id " +id);
-
         }
+        saveStatus();
     }
 
     public int getSize(){

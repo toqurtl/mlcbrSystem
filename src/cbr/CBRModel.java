@@ -28,6 +28,10 @@ public class CBRModel implements Serializable {
         this.bestWeight = builder.bestWeight;
     }
 
+    public CBRmodule getCBR(){
+        return cbr;
+    }
+
     public void setID(int ID){
         this.modelName = String.valueOf(ID);
     }
