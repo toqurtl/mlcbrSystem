@@ -6,7 +6,7 @@ import dataformat.Data;
 import dataformat.DataUtils;
 import dataformat.Dataset;
 import ga.Chromosomeset;
-import ga.Optimization;
+
 
 public class CBRUtils {
 

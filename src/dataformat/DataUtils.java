@@ -181,9 +181,6 @@ public class DataUtils {
         return check;
     }
 
-    public static void saveDataset(String filename, Dataset d1) throws IOException {
-        Util1.saveFile(filename+"data", d1);
-    }
 
 
 }
