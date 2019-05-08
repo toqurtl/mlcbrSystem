@@ -34,11 +34,27 @@ public class CBRModel implements Serializable {
     }
 
     public double reuse(Data d){
-        return cbr.reuse(this.k, d, this.bestWeight);
+        if(isFittedFormat(d)){
+            return cbr.reuse(this.k, d, this.bestWeight);
+        }else{
+            System.out.println("input data is not fit with dataset in the model");
+            return 0.0;
+        }
+
     }
 
     public ArrayList<Data> retrieve(Data d){
-        return new ArrayList<Data>(cbr.retrieve(this.k, d, this.bestWeight).stream().map(x->x.d).collect(Collectors.toList()));
+        if(isFittedFormat(d)){
+            return new ArrayList<Data>(cbr.retrieve(this.k, d, this.bestWeight).stream().map(x->x.d).collect(Collectors.toList()));
+        }else{
+            System.out.println("input data is not fit with dataset in the model");
+            return null;
+        }
+
+    }
+
+    public boolean isFittedFormat(Data d){
+        return cbr.dataset.isFitData(d);
     }
 
     public static class Builder{
