@@ -19,8 +19,14 @@ public class DataDB implements Serializable {
         db.clear();
     }
 
-    public void saveStatus() throws IOException {
-        Util1.saveFile(dbName, this);
+    public void saveStatus(){
+        try{
+            Util1.saveFile(dbName, this);
+        }catch(IOException e){
+            System.out.println("There is no data db named "+dbName);
+            e.printStackTrace();
+        }
+
     }
 
     public void addNewDataset(DatasetFile dataset) throws IOException{
