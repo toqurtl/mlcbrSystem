@@ -17,6 +17,9 @@ public class CBRModel implements Serializable {
     double trainError;
     double testError;
     double[] bestWeight;
+    private String numofData;
+    private String numofAttributes;
+    private String classAttri;
 
     public CBRModel(Builder builder){
         this.cbr = builder.cbr;
@@ -26,6 +29,9 @@ public class CBRModel implements Serializable {
         this.modelName = builder.modelName;
         this.modelDescription = builder.modelDescription;
         this.bestWeight = builder.bestWeight;
+        this.numofData = String.valueOf(builder.cbr.dataset.size());
+        this.numofAttributes = String.valueOf((builder.cbr.dataset.weightLength));
+        this.classAttri = builder.cbr.dataset.attributes.get(builder.cbr.dataset.classAttri);
     }
 
     public CBRmodule getCBR(){
@@ -65,6 +71,11 @@ public class CBRModel implements Serializable {
         temp.add(modelID);
         temp.add(modelName);
         temp.add(modelDescription);
+        temp.add(String.valueOf(trainError));
+        temp.add(String.valueOf(k));
+        temp.add(numofData);
+        temp.add(numofAttributes);
+        temp.add(classAttri);
         return temp;
     }
 

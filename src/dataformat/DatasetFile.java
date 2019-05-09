@@ -11,6 +11,9 @@ public class DatasetFile implements Serializable {
     private String dataID;
     private String dataName;
     private String dataDescription;
+    private String numofData;
+    private String numofAttributes;
+    private String classAttri;
     private Dataset dataset;
 
     public DatasetFile(Builder builder){
@@ -18,6 +21,9 @@ public class DatasetFile implements Serializable {
         this.dataName = builder.dataName;
         this.dataDescription = builder.dataDescription;
         this.dataset = builder.dataset;
+        this.numofData = String.valueOf(builder.dataset.size());
+        this.numofAttributes = String.valueOf((builder.dataset.weightLength));
+        this.classAttri = builder.dataset.attributes.get(builder.dataset.classAttri);
     }
 
     public void setID(int id){
@@ -28,6 +34,9 @@ public class DatasetFile implements Serializable {
         temp.add(dataID);
         temp.add(dataName);
         temp.add(dataDescription);
+        temp.add(numofData);
+        temp.add(numofAttributes);
+        temp.add(classAttri);
         return temp;
     }
 
