@@ -150,34 +150,49 @@ public class DataUtils {
 
     public static boolean isFitData(Data d1, Data d2){
         boolean check = true;
-        for(int i=0;i<d1.numAttributes;i++){
-            if(!d1.get(i).equals(d2.get(i))){
-                check = false;
-                break;
+        if(d1.attributes.size()==d2.attributes.size()){
+            for(int i=0;i<d1.numAttributes;i++){
+                if(!d1.get(i).equals(d2.get(i))){
+                    check = false;
+                    break;
+                }
             }
+        }else{
+            check = false;
         }
+
         return check;
     }
 
     public static boolean isFitData(Dataset d1, Data d2){
+
         boolean check = true;
-        for(int i=0;i<d1.numAttributes;i++){
-            if(!d1.attributes.get(i).equals(d2.attributes.get(i))){
-                check = false;
-                break;
+        if(d1.attributes.size()==d2.attributes.size()) {
+            for (int i = 0; i < d1.numAttributes; i++) {
+                if (!d1.attributes.get(i).equals(d2.attributes.get(i))) {
+                    check = false;
+                    break;
+                }
             }
+        }else{
+            check  = false;
         }
         return check;
     }
 
     public static boolean isFitData(Dataset d1, Dataset d2){
         boolean check = true;
-        for(int i=0;i<d1.numAttributes;i++){
-            if(!d1.attributes.get(i).equals(d2.attributes.get(i))){
-                check = false;
-                break;
+        if(d1.attributes.size()==d2.attributes.size()){
+            for(int i=0;i<d1.numAttributes;i++){
+                if(!d1.attributes.get(i).equals(d2.attributes.get(i))){
+                    check = false;
+                    break;
+                }
             }
+        }else{
+            check = false;
         }
+
         return check;
     }
 
