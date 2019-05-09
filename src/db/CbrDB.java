@@ -55,7 +55,7 @@ public class CbrDB implements Serializable {
         return db.size();
     }
 
-    public ArrayList<ArrayList<String>> getDatabaseInformation(int id){
+    public ArrayList<ArrayList<String>> getDatabaseInformation(){
         return new ArrayList<>(db.keySet().stream().map(x->db.get(x).getInfo()).collect(Collectors.toList()));
     }
 
