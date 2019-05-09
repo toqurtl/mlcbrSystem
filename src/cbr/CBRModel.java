@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 public class CBRModel implements Serializable {
     CBRmodule cbr;
     int k;
-    String modelName=" ";
-    String modelID=" ";
-    String modelDescription =" ";
+    public String modelName=" ";
+    public String modelID=" ";
+    public String modelDescription =" ";
     double trainError;
     double testError;
     double[] bestWeight;
@@ -87,9 +87,8 @@ public class CBRModel implements Serializable {
         int k;
         double trainError;
         double[] bestWeight;
-
-        String modelName=" ";
         String modelID=" ";
+        String modelName=" ";
         String modelDescription =" ";
 
         public Builder(CBRmodule cbr, int k, double trainError){
