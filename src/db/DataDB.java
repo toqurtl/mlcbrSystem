@@ -61,6 +61,10 @@ public class DataDB implements Serializable {
         return new ArrayList<>(db.keySet().stream().map(x->db.get(x).getInfo()).collect(Collectors.toList()));
     }
 
+    public ArrayList<String> getDatabaseInformation(int id){
+        return db.get(id).getInfo();
+    }
+
     public DatasetFile getDatasetFile(int id){
         if(isContainID(id)){
             return db.get(id);
