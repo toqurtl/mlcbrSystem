@@ -18,15 +18,14 @@ public class DatasetSaveExample {
         Dataset trainset = sets.get(0);
         Dataset testset = sets.get(1);
 
-
         FileInputStream fis = new FileInputStream("dataDB.db");
         ObjectInputStream ois = new ObjectInputStream(fis);
 
         DataDB ddb1 = (DataDB) ois.readObject();
         ddb1.addNewDataset(new DatasetFile(new DatasetFile.Builder(trainset).dataName("n3").dataDescriptoin("d3")));
         ddb1.saveStatus();
+        ddb1.getDatabaseInformation().forEach(x->x.forEach(System.out::println));
 
-        ddb1.getDatasetFile(4).getDataset().printDataset();
 
     }
 

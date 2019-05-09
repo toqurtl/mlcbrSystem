@@ -53,7 +53,6 @@ public class CBRModel implements Serializable {
             System.out.println("input data is not fit with dataset in the model");
             return 0.0;
         }
-
     }
 
     public ArrayList<Data> retrieve(Data d){
