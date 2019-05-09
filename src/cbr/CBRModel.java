@@ -99,7 +99,7 @@ public class CBRModel implements Serializable {
             this.bestWeight = cbr.bestWeight;
         }
         public Builder modelID(String modelID){
-            this.modelName = modelID;
+            this.modelID = modelID;
             return this;
         }
 
@@ -108,7 +108,7 @@ public class CBRModel implements Serializable {
             return this;
         }
         public Builder modelDescription(String modelDescription){
-            this.modelName = modelDescription;
+            this.modelDescription = modelDescription;
             return this;
         }
 
