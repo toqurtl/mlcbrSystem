@@ -22,7 +22,7 @@ public class DatasetFile implements Serializable {
         this.dataDescription = builder.dataDescription;
         this.dataset = builder.dataset;
         this.numofData = String.valueOf(builder.dataset.size());
-        this.numofAttributes = String.valueOf((builder.dataset.weightLength));
+        this.numofAttributes = String.valueOf((builder.dataset.attributes.size()-2));
         this.classAttri = builder.dataset.attributes.get(builder.dataset.classAttri);
     }
 
