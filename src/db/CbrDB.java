@@ -56,13 +56,7 @@ public class CbrDB implements Serializable {
     }
 
     public ArrayList<ArrayList<String>> getDatabaseInformation(int id){
-        if(isContainID(id)){
-            CBRModel df = db.get(id);
-            return new ArrayList<>(db.keySet().stream().map(x->db.get(x).getInfo()).collect(Collectors.toList()));
-        }else{
-            System.out.println("there is no dataset file with id " +id);
-            return null;
-        }
+        return new ArrayList<>(db.keySet().stream().map(x->db.get(x).getInfo()).collect(Collectors.toList()));
     }
 
     public CBRModel getModelFile(int id){

@@ -57,14 +57,8 @@ public class DataDB implements Serializable {
         return db.size();
     }
 
-    public ArrayList<ArrayList<String>> getDatabaseInformation(int id){
-        if(isContainID(id)){
-            DatasetFile df = db.get(id);
-            return new ArrayList<>(db.keySet().stream().map(x->db.get(x).getInfo()).collect(Collectors.toList()));
-        }else{
-            System.out.println("there is no dataset file with id " +id);
-            return null;
-        }
+    public ArrayList<ArrayList<String>> getDatabaseInformation(){
+        return new ArrayList<>(db.keySet().stream().map(x->db.get(x).getInfo()).collect(Collectors.toList()));
     }
 
     public DatasetFile getDatasetFile(int id){
