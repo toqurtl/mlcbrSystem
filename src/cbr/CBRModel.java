@@ -39,7 +39,7 @@ public class CBRModel implements Serializable {
     }
 
     public void setID(int ID){
-        this.modelName = String.valueOf(ID);
+        this.modelID = String.valueOf(ID);
     }
 
     public void saveFile(String filename) throws IOException {
